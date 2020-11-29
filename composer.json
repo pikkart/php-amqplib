@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "ext-curl": "*",
-        "phpunit/phpunit": "^6.5|^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^8.0|^9.0",
         "squizlabs/php_codesniffer": "^2.5",
         "nategood/httpful": "^0.2.20"
     },
