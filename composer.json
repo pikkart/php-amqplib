@@ -29,7 +29,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.2.0",
         "ext-sockets": "*",
         "ext-mbstring": "*",
         "phpseclib/phpseclib": "^2.0.0"
