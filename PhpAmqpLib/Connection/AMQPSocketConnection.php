@@ -47,12 +47,12 @@ class AMQPSocketConnection extends AbstractConnection
         parent::__construct(
             $user,
             $password,
+            $io,
             $vhost,
             $insist,
             $login_method,
             $login_response,
             $locale,
-            $io,
             $heartbeat,
             max($read_timeout, $write_timeout),
             $channel_rpc_timeout

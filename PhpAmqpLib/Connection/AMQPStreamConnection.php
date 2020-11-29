@@ -59,12 +59,12 @@ class AMQPStreamConnection extends AbstractConnection
         parent::__construct(
             $user,
             $password,
+            $io,
             $vhost,
             $insist,
             $login_method,
             $login_response,
             $locale,
-            $io,
             $heartbeat,
             $connection_timeout,
             $channel_rpc_timeout

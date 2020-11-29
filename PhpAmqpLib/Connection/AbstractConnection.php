@@ -161,12 +161,12 @@ abstract class AbstractConnection extends AbstractChannel
     /**
      * @param string $user
      * @param string $password
+     * @param AbstractIO $io
      * @param string $vhost
      * @param bool $insist
      * @param string $login_method
      * @param null $login_response @deprecated
      * @param string $locale
-     * @param AbstractIO $io
      * @param int $heartbeat
      * @param int $connection_timeout
      * @param float $channel_rpc_timeout
@@ -175,12 +175,12 @@ abstract class AbstractConnection extends AbstractChannel
     public function __construct(
         $user,
         $password,
+        AbstractIO $io,
         $vhost = '/',
         $insist = false,
         $login_method = 'AMQPLAIN',
         $login_response = null,
         $locale = 'en_US',
-        AbstractIO $io,
         $heartbeat = 0,
         $connection_timeout = 0,
         $channel_rpc_timeout = 0.0
