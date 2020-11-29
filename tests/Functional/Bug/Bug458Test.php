@@ -3,6 +3,7 @@
 namespace PhpAmqpLib\Tests\Functional\Bug;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +14,7 @@ class Bug458Test extends TestCase
 {
     private $channel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!extension_loaded('pcntl')) {
             $this->markTestSkipped('pcntl extension is not available');
@@ -25,7 +26,7 @@ class Bug458Test extends TestCase
         $this->addSignalHandlers();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->channel && $this->channel->is_open()) {
             $this->channel->close();
@@ -38,10 +39,10 @@ class Bug458Test extends TestCase
      *
      * @test
      *
-     * @expectedException \PhpAmqpLib\Exception\AMQPTimeoutException
      */
     public function stream_select_interruption()
     {
+        $this->expectException(AMQPTimeoutException::class);
         $pid = getmypid();
         exec('php -r "sleep(1);posix_kill(' . $pid . ', SIGTERM);" > /dev/null 2>/dev/null &');
         $this->channel->wait(null, false, 2);

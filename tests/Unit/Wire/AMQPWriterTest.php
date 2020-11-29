@@ -2,6 +2,7 @@
 
 namespace PhpAmqpLib\Tests\Unit\Wire;
 
+use PhpAmqpLib\Exception\AMQPOutOfRangeException;
 use PhpAmqpLib\Wire;
 use PhpAmqpLib\Wire\AMQPArray;
 use PhpAmqpLib\Wire\AMQPTable;
@@ -12,13 +13,13 @@ class AMQPWriterTest extends TestCase
 {
     protected $writer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setProtoVersion(Wire\Constants091::VERSION);
         $this->writer = new AMQPWriter();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->setProtoVersion(AMQPArray::PROTOCOL_RBT);
         $this->writer = null;
@@ -113,10 +114,10 @@ class AMQPWriterTest extends TestCase
 
     /**
      * @test
-     * @expectedException \PhpAmqpLib\Exception\AMQPOutOfRangeException
      */
     public function write_table_with_invalid_type()
     {
+        $this->expectException(AMQPOutOfRangeException::class);
         $this->writer->write_table([
             'x-foo' => ['_', 'bar'],
         ]);

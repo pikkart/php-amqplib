@@ -5,6 +5,7 @@ namespace PhpAmqpLib\Tests\Functional\Channel;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\TestCase;
 
@@ -41,10 +42,10 @@ class ChannelWaitTest extends TestCase
      * @small
      * @dataProvider provide_channels
      * @param callable $factory
-     * @expectedException \PhpAmqpLib\Exception\AMQPTimeoutException
      */
     public function should_throw_timeout_exception($factory)
     {
+        $this->expectException(AMQPTimeoutException::class);
         $channel = $factory();
         $channel->wait(null, false, 0.01);
         $this->closeChannel($channel);

@@ -17,7 +17,7 @@ class AMQPChannelTest extends TestCase
     public function blocked_connection_exception_on_publish()
     {
         $this->expectException(AMQPConnectionBlockedException::class);
-        $connection = new TestConnection('user', 'pass', '/', false, 'PLAIN', null, '', new BufferIO());
+        $connection = new TestConnection('user', 'pass', new BufferIO(), '/', false, 'PLAIN', null, '');
         $connection->setIsBlocked(true);
         $channel = new TestChannel($connection, 1);
         $channel->basic_publish(new AMQPMessage());
@@ -32,7 +32,7 @@ class AMQPChannelTest extends TestCase
     public function basic_consume_invalid_arguments($arguments, $expectedException)
     {
         $this->expectException($expectedException);
-        $connection = new TestConnection('user', 'pass', '/', false, 'PLAIN', null, '', new BufferIO());
+        $connection = new TestConnection('user', 'pass', new BufferIO(),'/', false, 'PLAIN', null, '');
         $channel = new TestChannel($connection, 1);
         $channel->basic_consume(...$arguments);
     }

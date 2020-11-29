@@ -32,7 +32,7 @@ class LibraryPropertiesTest extends TestCase
         $properties = $connection->getLibraryProperties();
 
         // Assert that the library properties method returns an array
-        $this->assertInternalType('array', $properties);
+        $this->assertIsArray($properties);
 
         // Ensure that the required properties exist in the array
         $this->assertArrayHasKey('product', $properties);
@@ -58,16 +58,16 @@ class LibraryPropertiesTest extends TestCase
         $properties = $connection->getLibraryProperties();
 
         // Assert that the library properties method returns an array
-        $this->assertInternalType('array', $properties);
+        $this->assertIsArray($properties);
 
         // Iterate array checking each value is suitable
         foreach ($properties as $property) {
             // Property should be an array with exactly 2 properties
-            $this->assertInternalType('array', $property);
+            $this->assertIsArray($property);
             $this->assertCount(2, $property);
             // Retreive the datatype and ensure it matches our signature
             $dataType = $property[0];
-            $this->assertInternalType('string', $dataType);
+            $this->assertIsString($dataType);
             $this->assertStringMatchesFormat('%c', $dataType);
         }
     }

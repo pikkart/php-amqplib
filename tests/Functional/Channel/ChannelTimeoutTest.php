@@ -3,6 +3,7 @@ namespace PhpAmqpLib\Tests\Functional\Channel;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 use PhpAmqpLib\Helper\MiscHelper;
 use PhpAmqpLib\Wire\IO\AbstractIO;
 use PhpAmqpLib\Wire\IO\StreamIO;
@@ -28,7 +29,7 @@ class ChannelTimeoutTest extends TestCase
     /** @var AMQPChannel $channel */
     private $channel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $channel_rpc_timeout = 3.5;
 
@@ -37,11 +38,11 @@ class ChannelTimeoutTest extends TestCase
 
         $this->io = $this->getMockBuilder(StreamIO::class)
             ->setConstructorArgs(array(HOST, PORT, 3, 3, null, false, 0))
-            ->setMethods(array('select'))
+            ->onlyMethods(array('select'))
             ->getMock();
         $this->connection = $this->getMockBuilder(AbstractConnection::class)
-            ->setConstructorArgs(array(USER, PASS, '/', false, 'AMQPLAIN', null, 'en_US', $this->io, 0, 0, $channel_rpc_timeout))
-            ->setMethods(array())
+            ->setConstructorArgs(array(USER, PASS, $this->io, '/', false, 'AMQPLAIN', null, 'en_US', 0, 0, $channel_rpc_timeout))
+            ->onlyMethods(array())
             ->getMockForAbstractClass();
 
         $this->channel = $this->connection->channel();
@@ -58,11 +59,11 @@ class ChannelTimeoutTest extends TestCase
      * @covers \PhpAmqpLib\Channel\AMQPChannel::queue_declare
      * @covers \PhpAmqpLib\Channel\AMQPChannel::confirm_select
      *
-     * @expectedException \PhpAmqpLib\Exception\AMQPTimeoutException
-     * @expectedExceptionMessage The connection timed out after 3.5 sec while awaiting incoming data
      */
     public function should_throw_exception_for_basic_operations_when_timeout_exceeded($operation, $args)
     {
+        $this->expectException(AMQPTimeoutException::class);
+        $this->expectDeprecationMessage('The connection timed out after 3.5 sec while awaiting incoming data');
         // simulate blocking on the I/O level
         $this->io->expects($this->any())
             ->method('select')
@@ -81,7 +82,7 @@ class ChannelTimeoutTest extends TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->channel) {
             $this->channel->close();

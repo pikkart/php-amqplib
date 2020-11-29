@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class AMQPReaderTest extends TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setProtoVersion(Wire\Constants091::VERSION);
     }
@@ -21,7 +21,7 @@ class AMQPReaderTest extends TestCase
         $r->setValue(null, $proto);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -42,10 +42,10 @@ class AMQPReaderTest extends TestCase
         $reader = new AMQPReader($data);
         $parsed = $reader->read_signed_longlong();
         if (PHP_INT_SIZE === 8) {
-            $this->assertInternalType('integer', $parsed);
+            $this->assertIsInt($parsed);
             $this->assertEquals(0x80000000, $parsed);
         } else {
-            $this->assertInternalType('string', $parsed);
+            $this->assertIsString($parsed);
             $this->assertEquals('2147483648', $parsed);
         }
     }
@@ -55,7 +55,7 @@ class AMQPReaderTest extends TestCase
         $data = hex2bin(str_repeat('f', 16));
         $reader = new AMQPReader($data);
         $parsed = $reader->read_longlong();
-        $this->assertInternalType('string', $parsed);
+        $this->assertIsString($parsed);
         $this->assertEquals('18446744073709551615', $parsed);
     }
 }

@@ -22,7 +22,7 @@ class MiscHelperTest extends TestCase
      */
     public function hexdump($args, $expected)
     {
-        $this->assertRegExp($expected, MiscHelper::hexdump($args[0], $args[1], $args[2], $args[3]));
+        $this->assertMatchesRegularExpression($expected, MiscHelper::hexdump($args[0], $args[1], $args[2], $args[3]));
     }
 
     /**

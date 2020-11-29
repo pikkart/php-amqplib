@@ -24,7 +24,7 @@ class PCNTLHeartbeatSenderTest extends AbstractConnectionTest
     /** @var int */
     protected $heartbeatTimeout = 4;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = $this->conection_create(
             'stream',
@@ -39,7 +39,7 @@ class PCNTLHeartbeatSenderTest extends AbstractConnectionTest
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->sender) {
             $this->sender->unregister();

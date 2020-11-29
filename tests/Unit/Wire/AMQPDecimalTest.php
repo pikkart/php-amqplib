@@ -2,6 +2,7 @@
 
 namespace PhpAmqpLib\Tests\Unit\Wire;
 
+use PhpAmqpLib\Exception\AMQPOutOfBoundsException;
 use PhpAmqpLib\Wire\AMQPDecimal;
 use PHPUnit\Framework\TestCase;
 
@@ -39,10 +40,10 @@ class AMQPDecimalTest extends TestCase
 
     /**
      * @test
-     * @expectedException \PhpAmqpLib\Exception\AMQPOutOfBoundsException
      */
     public function negative_value()
     {
+        $this->expectException(AMQPOutOfBoundsException::class);
         new AMQPDecimal(100, -1);
     }
 }
